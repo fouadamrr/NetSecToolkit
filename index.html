@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetSec Toolkit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>NetSec Toolkit</h1>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="subnet">Subnet Calculator</button>
+            <button class="tab-btn" data-tab="ports">Ports Reference</button>
+            <button class="tab-btn" data-tab="bandwidth">Bandwidth</button>
+            <button class="tab-btn" data-tab="crypto">Crypto & Decoder</button>
+        </nav>
+
+        <main class="content">
+            <section id="subnet" class="tab-content active">
+                <div class="card">
+                    <h2 class="section-title">IPv4 Subnet Calculator</h2>
+                    <div class="form-group row">
+                        <div class="input-col">
+                            <label for="ip-address">IP Address</label>
+                            <input type="text" id="ip-address" placeholder="192.168.1.1">
+                        </div>
+                        <div class="input-col">
+                            <label for="cidr">CIDR (/)</label>
+                            <input type="number" id="cidr" min="0" max="32" placeholder="24" value="24">
+                        </div>
+                        <div class="btn-col">
+                            <button id="calc-btn" class="btn-primary">Calculate</button>
+                        </div>
+                    </div>
+                    <div id="subnet-error" class="error-msg"></div>
+                </div>
+
+                <div class="card results-card" id="results-container" style="display: none;">
+                    <table class="results-table">
+                        <tbody>
+                            <tr>
+                                <td>IP Address</td>
+                                <td id="res-ip"></td>
+                            </tr>
+                            <tr>
+                                <td>Network Address</td>
+                                <td id="res-network"></td>
+                            </tr>
+                            <tr>
+                                <td>Usable Host Range</td>
+                                <td id="res-range"></td>
+                            </tr>
+                            <tr>
+                                <td>Broadcast Address</td>
+                                <td id="res-broadcast"></td>
+                            </tr>
+                            <tr>
+                                <td>Subnet Mask</td>
+                                <td id="res-mask"></td>
+                            </tr>
+                            <tr>
+                                <td>Total Usable Hosts</td>
+                                <td id="res-hosts"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Ports Reference Tab -->
+            <section id="ports" class="tab-content">
+                <div class="card">
+                    <h2 class="section-title">Common Ports Reference</h2>
+                    <div class="form-group row">
+                        <div class="input-col" style="flex: 1;">
+                            <input type="text" id="port-search" placeholder="Search by port number, name, protocol, or description...">
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="ports-table" id="ports-table">
+                            <thead>
+                                <tr>
+                                    <th width="15%">Port</th>
+                                    <th width="20%">Protocol</th>
+                                    <th width="25%">Service</th>
+                                    <th width="40%">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ports-tbody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bandwidth Converter Tab -->
+            <section id="bandwidth" class="tab-content">
+                <div class="card">
+                    <h2 class="section-title">Bandwidth Converter</h2>
+                    <div class="form-group row">
+                        <div class="input-col">
+                            <label for="bw-value">Value</label>
+                            <input type="number" id="bw-value" placeholder="100" value="100">
+                        </div>
+                        <div class="input-col">
+                            <label for="bw-unit">From Unit</label>
+                            <select id="bw-unit" class="select-input">
+                                <option value="bps">Bits per sec (bps)</option>
+                                <option value="kbps">Kilobits per sec (Kbps)</option>
+                                <option value="mbps" selected>Megabits per sec (Mbps)</option>
+                                <option value="gbps">Gigabits per sec (Gbps)</option>
+                                <option value="MBps">Megabytes per sec (MB/s)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive" style="margin-top: 25px;">
+                        <table class="results-table">
+                            <tbody>
+                                <tr>
+                                    <td>Bits per second (bps)</td>
+                                    <td id="res-bps">0</td>
+                                </tr>
+                                <tr>
+                                    <td>Kilobits per second (Kbps)</td>
+                                    <td id="res-kbps">0</td>
+                                </tr>
+                                <tr>
+                                    <td>Megabits per second (Mbps)</td>
+                                    <td id="res-mbps">0</td>
+                                </tr>
+                                <tr>
+                                    <td>Gigabits per second (Gbps)</td>
+                                    <td id="res-gbps">0</td>
+                                </tr>
+                                <tr style="background-color: var(--bg-main);">
+                                    <td><strong>Download Speed (MB/s)</strong></td>
+                                    <td id="res-MBps" style="font-weight: 600; color: var(--accent-dark);">0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Crypto Tab -->
+            <section id="crypto" class="tab-content">
+                <!-- Basic Encoding & Ciphers Card -->
+                <div class="card">
+                    <h2 class="section-title">Basic Encoding & Ciphers</h2>
+                    <div class="form-group row">
+                        <div class="input-col" style="flex: 2;">
+                            <label for="basic-text">Plain Text</label>
+                            <input type="text" id="basic-text" placeholder="Text to encode or encrypt...">
+                        </div>
+                        <div class="input-col" style="flex: 1;">
+                            <label for="basic-algo">Algorithm</label>
+                            <select id="basic-algo" class="select-input">
+                                <option value="base64">Base64 Encode</option>
+                                <option value="hex">Hex Encode</option>
+                                <option value="caesar">Caesar Cipher</option>
+                            </select>
+                        </div>
+                        <div class="input-col" id="caesar-shift-col" style="flex: 1; display: none;">
+                            <label for="caesar-shift">Shift (1-25)</label>
+                            <input type="number" id="caesar-shift" min="1" max="25" value="3">
+                        </div>
+                    </div>
+                    <button id="basic-enc-btn" class="btn-primary" style="margin-top: 10px;">Process</button>
+                    
+                    <div class="form-group" style="margin-top: 15px;">
+                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                            <textarea id="basic-output" rows="2" readonly style="background-color: #eef4fb; cursor: copy; flex: 1;" placeholder="Result will appear here..."></textarea>
+                            <button id="copy-basic-btn" class="btn-primary" style="padding: 8px 15px; font-size: 0.9rem;" title="Copy to clipboard">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auto-Analyzer Card -->
+                <div class="card">
+                    <h2 class="section-title">Smart Text Analyzer & Decoder</h2>
+                    <div class="form-group">
+                        <label for="analyzer-input">Input Ciphertext / Encoded String</label>
+                        <textarea id="analyzer-input" rows="3" placeholder="Paste Base64, Hex, or Caesar cipher here..."></textarea>
+                    </div>
+                    <button id="analyze-btn" class="btn-primary" style="margin-top: 10px;">Analyze & Decode</button>
+                    
+                    <div id="analyzer-output" style="margin-top: 20px; display: none;">
+                        <h4 style="color: var(--accent-dark); margin-bottom: 10px;">Analysis Results:</h4>
+                        <div id="analyzer-results" style="background: #f8f9fa; border: 1px solid var(--border-color); border-radius: 4px; padding: 15px; font-family: monospace; white-space: pre-wrap; font-size: 0.95rem; max-height: 250px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <!-- AES Encrypt/Decrypt Card -->
+                <div class="card">
+                    <h2 class="section-title">AES-256-GCM Encryption</h2>
+                    <div class="form-group row">
+                        <div class="input-col" style="flex: 2;">
+                            <label for="aes-text">Text to Encrypt / Decrypt</label>
+                            <input type="text" id="aes-text" placeholder="Secret message or Ciphertext">
+                        </div>
+                        <div class="input-col" style="flex: 1;">
+                            <label for="aes-pass">Passphrase</label>
+                            <input type="password" id="aes-pass" placeholder="Enter secret key">
+                        </div>
+                    </div>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button id="aes-enc-btn" class="btn-primary">Encrypt</button>
+                        <button id="aes-dec-btn" class="btn-primary" style="background-color: #3E8EDE; color: #fff;">Decrypt</button>
+                    </div>
+                    <div id="aes-error" class="error-msg"></div>
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label for="aes-output">Result (Salt:IV:Ciphertext)</label>
+                        <div style="display: flex; gap: 10px; align-items: flex-start;">
+                            <textarea id="aes-output" rows="3" readonly style="background-color: #eef4fb; cursor: copy; flex: 1;"></textarea>
+                            <button id="copy-aes-btn" class="btn-primary" style="padding: 8px 15px; font-size: 0.9rem;" title="Copy to clipboard">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
