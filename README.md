@@ -54,7 +54,17 @@ graph TD
 ```
 
 ## 📸 Screenshots
-*(See docs/screenshots/ for screenshots)*
+<div align="center">
+  <img src="docs/screenshots/1.png" width="800" alt="Subnet Calculator">
+  <br><br>
+  <img src="docs/screenshots/2.png" width="800" alt="Ports Reference">
+  <br><br>
+  <img src="docs/screenshots/3.png" width="800" alt="Bandwidth Converter">
+  <br><br>
+  <img src="docs/screenshots/4.png" width="800" alt="Crypto Basic Encoding">
+  <br><br>
+  <img src="docs/screenshots/5.png" width="800" alt="AES Encryption">
+</div>
 
 ## 🚀 Live Demo
 https://fouadamrr.github.io/NetSecToolkit/
