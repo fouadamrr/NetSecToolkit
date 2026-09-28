@@ -1,0 +1,27 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffffff', 'primaryTextColor': '#334155', 'primaryBorderColor': '#e2e8f0', 'lineColor': '#94a3b8', 'secondaryColor': '#f8fafc', 'tertiaryColor': '#f1f5f9'}}}%%
+graph TD
+    classDef ui fill:#3b82f6,stroke:#2563eb,stroke-width:2px,color:#ffffff,rx:12,ry:12;
+    classDef module fill:#ffffff,stroke:#cbd5e1,stroke-width:2px,color:#0f172a,rx:8,ry:8;
+    classDef core fill:#f1f5f9,stroke:#94a3b8,stroke-width:2px,color:#0f172a,rx:12,ry:12;
+    classDef math fill:#e0f2fe,stroke:#7dd3fc,stroke-width:1.5px,color:#0369a1,rx:6,ry:6;
+
+    UI[🖥️ User Interface<br/>index.html]:::ui --> Tabs
+
+    subgraph Tabs [🎨 Toolkit Modules]
+        direction LR
+        SC[🔢 Subnet Calculator]:::module
+        PR[🔌 Ports Reference]:::module
+        BC[📶 Bandwidth Converter]:::module
+        CR[🔐 Crypto & Decoder]:::module
+    end
+
+    Tabs --> Logic[⚙️ app.js Core Logic]:::core
+
+    Logic --> |IP/CIDR| SC_Calc[Network Math]:::math
+    Logic --> |Port Search| PR_Search[portsData Filter]:::math
+    Logic --> |bps Math| BC_Conv[Rate Conversion]:::math
+    
+    Logic --> CR_Logic[Crypto Functions]:::math
+    CR_Logic --> |Base64/Hex/Caesar| Basic[Basic Encoding]:::math
+    CR_Logic --> |Regex Match| Analyzer[Smart Analyzer]:::math
+    CR_Logic --> |Web Crypto| AES[AES-256-GCM]:::math
